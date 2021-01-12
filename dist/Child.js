@@ -45,7 +45,7 @@ export function Child(props) {
     return (React.createElement(sortable.Child, __assign({}, rest, { 
         key, 
         style, 
-        index, 
+        index,
         onSortMouseDown: mouseDown, 
         onSortTouchStart: touchStart 
     })))

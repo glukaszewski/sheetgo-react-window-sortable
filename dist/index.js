@@ -88,38 +88,34 @@ var SortableVariableSizeList = /** @class */ (function (_super) {
     }
     SortableVariableSizeList.prototype.mouseDown = function (e, params) {
         var list = this.listRef.current
-        if (list === null)
-            return
+        if (list === null) return
         this.startClientY = e.clientY
         var top = parseInt((params.style.top || '0').toString(), 10)
         this.startDragObjOffsetY = top - this.getScrollOffsetTop(list)
         document.body.addEventListener('mouseup', this.onMouseUp)
         document.body.addEventListener('mousemove', this.onMouseMove)
-        this.setState({
-            dragging: params,
-        })
+        this.setState({ dragging: params })
     }
     SortableVariableSizeList.prototype.touchStart = function (e, params) {
+        console.log('touchstart', e)
         var list = this.listRef.current
-        if (list === null)
-            return
-        this.startClientY = e.clientY
+        if (list === null) return
+        this.startClientY = e.targetTouches[0].clientY
         var top = parseInt((params.style.top || '0').toString(), 10)
         this.startDragObjOffsetY = top - this.getScrollOffsetTop(list)
         document.body.addEventListener('touchend', this.onTouchEnd)
         document.body.addEventListener('touchmove', this.onTouchMove)
-        this.setState({
-            dragging: params,
-        })
+        this.onTouchMove(e)
+        this.setState({ dragging: params  })
     }
     SortableVariableSizeList.prototype.onMouseMove = function (event) {
         this.updateDragElementPositioning(event.clientY)
         this.checkAutoScroll(event.clientY)
     }
     SortableVariableSizeList.prototype.onTouchMove = function (event) {
-        console.log(event)
-        this.updateDragElementPositioning(event.clientY)
-        this.checkAutoScroll(event.clientY)
+        const { clientY } = event.targetTouches[0]
+        this.updateDragElementPositioning(clientY)
+        this.checkAutoScroll(clientY)
     }
     SortableVariableSizeList.prototype.updateDragElementPositioning = function (mouseY) {
         var dragRef = this.dragRef.current
