@@ -1,12 +1,12 @@
 
-# React Window Sortable
+# Sheetgo's React Window Sortable
 
 This library provides drag and drop sort functionality for very large lists.
 
 This library wraps Brian Vaughn's excellent library [react-window](https://github.com/bvaughn/react-window) and 
 adds drag and drop sorting.
 
-This library was revised and customized by Sheetgo.
+This library was revised and customized by Sheetgo, providing touch support, better code legibility and array reorder functions.
 
 ## Features
 - Drag and drop to re-order list items
@@ -15,6 +15,8 @@ This library was revised and customized by Sheetgo.
 - Can handle giant lists (+100 elements)
 - Handles vertical lists only
 - Very customizable
+- Touch support
+- Integrated array-move functions
 
 ## Install
 
@@ -44,9 +46,14 @@ Fixed Size List (for rows of equal height) [full example](./example-fixed-sized-
         })
     }}
 >
-    {React.forwardRef(({data, index, style, onSortMouseDown}: ChildrenProps, ref: Ref<any>) => (
+    {React.forwardRef(({data, index, style, onSortMouseDown, onSortTouchStart}: ChildrenProps, ref: Ref<any>) => (
         <div ref={ref} style={style}>
-            <button onMouseDown={onSortMouseDown}>drag handle</button>
+            <button 
+                onMouseDown={onSortMouseDown}
+                onTouchStart={onSortTouchStart}
+            >
+                drag handle
+            </button>
             {data[index]}
         </div>
     ))}
@@ -65,13 +72,18 @@ Variable Size List (for rows of variable height) [full example](./example-variab
     onSortOrderChanged={({originalIndex, newIndex}: {originalIndex: number, newIndex: number}) => {
         move(this.state.data, originalIndex, newIndex);
         this.setState({
-            data: this.state.data.slice(0),
+            data: this.state.data.slice(0)
         })
     }}
 >
-    {React.forwardRef(({data, index, style, onSortMouseDown}: ChildrenProps, ref: Ref<any>) => (
+    {React.forwardRef(({data, index, style, onSortMouseDown, onSortTouchStart}: ChildrenProps, ref: Ref<any>) => (
         <div ref={ref} style={style}>
-            <button onMouseDown={onSortMouseDown}>drag handle</button>
+            <button 
+                onMouseDown={onSortMouseDown}
+                onTouchStart={onSortTouchStart}
+            >
+                drag handle
+            </button>
             {data[index]}
         </div>
     ))}
