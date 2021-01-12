@@ -97,7 +97,6 @@ var SortableVariableSizeList = /** @class */ (function (_super) {
         this.setState({ dragging: params })
     }
     SortableVariableSizeList.prototype.touchStart = function (e, params) {
-        console.log('touchstart', e)
         var list = this.listRef.current
         if (list === null) return
         this.startClientY = e.targetTouches[0].clientY
@@ -105,8 +104,9 @@ var SortableVariableSizeList = /** @class */ (function (_super) {
         this.startDragObjOffsetY = top - this.getScrollOffsetTop(list)
         document.body.addEventListener('touchend', this.onTouchEnd)
         document.body.addEventListener('touchmove', this.onTouchMove)
-        this.onTouchMove(e)
         this.setState({ dragging: params  })
+        const { clientY } = e.targetTouches[0]
+        setTimeout(() => this.onTouchMove({ targetTouches: [{ clientY }] }), 200)
     }
     SortableVariableSizeList.prototype.onMouseMove = function (event) {
         this.updateDragElementPositioning(event.clientY)

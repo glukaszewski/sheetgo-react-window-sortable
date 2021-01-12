@@ -35,5 +35,10 @@ export function DraggingElement() {
         cursor: 'grabbing'
     }, drag.draggingElementStyle || {})
     if (!style.backgroundColor) style.backgroundColor = 'white'
-    return (React.createElement(Child, __assign({ ref: drag.dragRef }, rest, { className: drag.draggingElementClassName, style: style, onSortMouseDown: emptyCallback })))
+    return (React.createElement(Child, __assign({ ref: drag.dragRef }, rest, { 
+        className: drag.draggingElementClassName,
+        style: style,
+        onSortMouseDown: emptyCallback,
+        onSortTouchStart: emptyCallback
+    })))
 }
