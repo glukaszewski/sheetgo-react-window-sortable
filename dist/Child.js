@@ -27,9 +27,14 @@ export function Child(props) {
     var drag = useContext(DragContext)
     var style = props.style, index = props.index, rest = __rest(props, ['style', 'index']) 
     var onMouseDown = sortable.onMouseDown
+    var onTouchStart = sortable.onTouchStart
     var mouseDown = useCallback(function (e) { return onMouseDown(e, props) }, [
         props,
-        onMouseDown,
+        onMouseDown
+    ])
+    var touchStart = useCallback(function (e) { return onTouchStart(e, props) }, [
+        props,
+        onTouchStart
     ])
     if (drag !== null && index === drag.dragging.index) {
         return null
@@ -37,5 +42,11 @@ export function Child(props) {
     var key
     if (sortable.itemKey)
         key = sortable.itemKey(props.index, props.data)
-    return (React.createElement(sortable.Child, __assign({}, rest, { key: key, style: style, index: index, onSortMouseDown: mouseDown })))
+    return (React.createElement(sortable.Child, __assign({}, rest, { 
+        key, 
+        style, 
+        index, 
+        onSortMouseDown: mouseDown, 
+        onSortTouchStart: touchStart 
+    })))
 }

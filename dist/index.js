@@ -59,14 +59,18 @@ var SortableVariableSizeList = /** @class */ (function (_super) {
             Child: _this.props.children,
             itemKey: _this.props.itemKey,
             onMouseDown: _this.mouseDown.bind(_this),
+            onTouchStart: _this.touchStart.bind(_this)
         }
         _this.dragContext = null
         _this.state = {
             dragging: null,
         }
         _this.onMouseUp = _this.onMouseUp.bind(_this)
+        _this.onTouchEnd = _this.onTouchEnd.bind(_this)
         _this.onMouseMove = _this.onMouseMove.bind(_this)
+        _this.onTouchMove = _this.onTouchMove.bind(_this)
         _this.mouseDown = _this.mouseDown.bind(_this)
+        _this.touchStart = _this.touchStart.bind(_this)
         return _this
     }
     SortableVariableSizeList.prototype.getAutoScrollWhenDistanceLessThan = function () {
@@ -78,6 +82,8 @@ var SortableVariableSizeList = /** @class */ (function (_super) {
     SortableVariableSizeList.prototype.componentWillUnmount = function () {
         document.body.removeEventListener('mouseup', this.onMouseUp)
         document.body.removeEventListener('mousemove', this.onMouseMove)
+        document.body.removeEventListener('touchend', this.onTouchEnd)
+        document.body.removeEventListener('touchmove', this.onTouchMove)
         this.setAutoScroll('none', 0)
     }
     SortableVariableSizeList.prototype.mouseDown = function (e, params) {
@@ -93,7 +99,25 @@ var SortableVariableSizeList = /** @class */ (function (_super) {
             dragging: params,
         })
     }
+    SortableVariableSizeList.prototype.touchStart = function (e, params) {
+        var list = this.listRef.current
+        if (list === null)
+            return
+        this.startClientY = e.clientY
+        var top = parseInt((params.style.top || '0').toString(), 10)
+        this.startDragObjOffsetY = top - this.getScrollOffsetTop(list)
+        document.body.addEventListener('touchend', this.onTouchEnd)
+        document.body.addEventListener('touchmove', this.onTouchMove)
+        this.setState({
+            dragging: params,
+        })
+    }
     SortableVariableSizeList.prototype.onMouseMove = function (event) {
+        this.updateDragElementPositioning(event.clientY)
+        this.checkAutoScroll(event.clientY)
+    }
+    SortableVariableSizeList.prototype.onTouchMove = function (event) {
+        console.log(event)
         this.updateDragElementPositioning(event.clientY)
         this.checkAutoScroll(event.clientY)
     }
@@ -205,6 +229,11 @@ var SortableVariableSizeList = /** @class */ (function (_super) {
         }
         this.hoverIndex = null
     }
+    SortableVariableSizeList.prototype.onTouchEnd = function () {
+        document.body.removeEventListener('touchend', this.onTouchEnd)
+        document.body.removeEventListener('touchmove', this.onTouchMove)
+        this.onMouseUp()
+    }
     SortableVariableSizeList.prototype.renderDropZoneElement = function () {
         if (this.state.dragging === null)
             return
@@ -216,7 +245,7 @@ var SortableVariableSizeList = /** @class */ (function (_super) {
             background: 'white',
         })
         var dropElement = this.props.dropElement || (React.createElement('div', { style: {
-                border: '2px dashed #0087F7',
+                border: '2px solid #0087F7',
                 borderRadius: '3px',
                 margin: '2px',
                 flex: 1,
@@ -295,6 +324,7 @@ export { SortableVariableSizeList }
 export var SortableContext = React.createContext({
     Child: function () { return React.createElement('div', null) },
     onMouseDown: function () { },
+    onTouchStart: function () { },
     itemKey: undefined
 })
 export var DragContext = React.createContext(null)

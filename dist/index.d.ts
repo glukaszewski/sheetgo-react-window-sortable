@@ -6,6 +6,7 @@ export interface MouseEvent {
 }
 export declare type ChildrenProps = ListChildComponentProps & {
     onSortMouseDown(e: MouseEvent): void;
+    onSortTouchStart(e: TouchEvent): void;
     ref?: Ref<any>;
     className?: string;
 };
@@ -59,6 +60,7 @@ export declare class SortableVariableSizeList extends React.Component<Props<Vari
     componentWillUnmount(): void;
     mouseDown(e: MouseEvent, params: ListChildComponentProps): void;
     onMouseMove(event: MouseEvent): void;
+    onTouchMove(event: TouchEvent): void;
     updateDragElementPositioning(mouseY: number): void;
     getHoverDetails(offsetY: number): {
         offsetTop: number;
@@ -69,6 +71,7 @@ export declare class SortableVariableSizeList extends React.Component<Props<Vari
     checkAutoScroll(mouseY: number): void;
     setAutoScroll(scroll: AutoScrollKeyword, mouseY: number): void;
     onMouseUp(): void;
+    onTouchEnd(): void;
     renderDropZoneElement(): JSX.Element | undefined;
     renderDraggingElement(): JSX.Element | null;
     renderInnerElement(): React.ForwardRefExoticComponent<React.RefAttributes<any>>;
@@ -82,6 +85,7 @@ export interface ISortableContext {
     Child: React.ComponentType<ChildrenProps>;
     itemKey?: ListItemKeySelector;
     onMouseDown(e: MouseEvent, params: ListChildComponentProps): void;
+    onTouchStart(e: TouchEvent, params: ListChildComponentProps): void;
 }
 export declare const SortableContext: React.Context<ISortableContext>;
 export interface IDragContext {
