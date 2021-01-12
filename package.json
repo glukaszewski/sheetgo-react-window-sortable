@@ -1,0 +1,38 @@
+{
+  "name": "sheetgo-react-window-sortable",
+  "version": "1.4.9",
+  "description": "A take on original React Window Sortable that is a HOC for react-window that allows drag and drop sorting of lists by Sheetgo.",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "files": [
+    "dist/*"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "prettier": "prettier --write '**/*.{tsx,ts,js,json,css}'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/glukaszewski/sheetgo-react-window-sortable.git"
+  },
+  "keywords": [
+    "react",
+    "window",
+    "sortable",
+    "large",
+    "list",
+    "virtualize"
+  ],
+  "author": "Nate Bosscher",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/glukaszewski/sheetgo-react-window-sortable/issues"
+  },
+  "homepage": "https://github.com/glukaszewski/sheetgo-react-window-sortable#readme",
+  "dependencies": {
+    "react": "^16.9.35",
+    "react-window": "^1.8.5",
+    "typescript": "3.7.2"
+  }
+}
